@@ -39,8 +39,11 @@ Note.init(
   }
 );
 
+Note.sync();
+
 app.get("/api/notes", async (req, res) => {
   const notes = await Note.findAll();
+  console.log(JSON.stringify(notes, null, 2), "get all api");
   //   const notes = await sequelize.query("SELECT * FROM notes", {
   //     type: QueryTypes.SELECT,
   //   });
@@ -56,6 +59,29 @@ app.post("/api/notes", async (req, res) => {
     return res.status(400).json({ error });
   }
 });
+
+app.get("/api/notes/:id", async (req, res) => {
+  const note = await Note.findByPk(req.params.id);
+  if (note) {
+    console.log(note.toJSON());
+    res.json(note);
+  } else {
+    //res.status(404).end();
+    res.status(404).send({ message: "no such note" });
+  }
+});
+
+// app.put("/api/notes/:id", async (req, res) => {
+//   const note = await Note.findByPk(req.params.id);
+//   if (note) {
+//     note.important = req.body.important;
+//     await note.save();
+//     res.json(note);
+//   } else {
+//     res.status(404).end();
+//   }
+// });
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
