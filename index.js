@@ -3,6 +3,9 @@ const { Sequelize, Model, DataTypes } = require("sequelize");
 const express = require("express");
 const app = express();
 
+//middleware to parse incoming JSON data
+app.use(express.json());
+
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialectOptions: {
     ssl: {
@@ -51,6 +54,7 @@ app.get("/api/notes", async (req, res) => {
 });
 
 //adding simple error handling when creating note
+//route to handle incoming POST requests/ implementing endpoint
 app.post("/api/notes", async (req, res) => {
   try {
     const note = await Note.create(req.body);
