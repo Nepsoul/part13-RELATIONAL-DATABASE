@@ -6,6 +6,16 @@ Content-Type: application/json
 
 {
     "content":"testing post api",
+    "important":true,
+    "date":null
+}
+
+###
+PUT http://localhost:3001/api/notes/4
+Content-Type: application/json
+
+{
+    "content":"testing post api",
     "important":false,
     "date":null
 }
