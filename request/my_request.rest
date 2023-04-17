@@ -6,8 +6,8 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdyb290IiwiaWQiOjEsImlhdCI6MTY4MTY4OTQ2OH0.V18mROSyotpYwAwKr7J0BTo8HApU17nUWGEW9w63hpw
 
 {
-    "content":"testing fifth post api with token",
-    "important":true,
+    "content":"testing sixth post api with token",
+    "important":false,
     "date":null
 }
 
