@@ -3,12 +3,18 @@ const app = express();
 const { PORT } = require("./utils/config");
 const { connectToDatabase } = require("./utils/db");
 
+//importing routes
 const notesRouter = require("./controllers/notes");
+const usersRouter = require("./controllers/users");
+const loginRouter = require("./controllers/login");
 
 //middleware to parse incoming JSON data
 app.use(express.json());
 
+//giving paths
 app.use("/api/notes", notesRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
 
 // app.get("/api/notes", async (req, res) => {
 //   const notes = await Note.findAll();
