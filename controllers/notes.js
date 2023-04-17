@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { Note } = require("../models");
+const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const { SECRET } = require("../utils/config");
 const { User } = require("../models");
@@ -26,17 +27,35 @@ const tokenExtractor = (req, res, next) => {
 };
 
 router.get("/", async (req, res) => {
-  const notes = await Note.findAll();
+  const where = {};
+  if (req.query.important) {
+    where.important = req.query.important === "true"; //req query
+  }
+
+  if (req.query.search) {
+    where.content = {
+      [Op.substring]: req.query.search,
+    };
+  }
+
+  const notes = await Note.findAll({
+    attributes: { exclude: ["userId"] },
+    include: {
+      model: User,
+      attributes: ["name", "username"],
+    },
+    where,
+  });
   res.json(notes);
 });
 
 //route to handle incoming POST requests/ implementing endpoint
 router.post("/", tokenExtractor, async (req, res) => {
   try {
-    const user = await User.findByPk(req.decodedToken.id);
+    // const user = await User.findByPk(req.decodedToken.id);
     const note = await Note.create({
       ...req.body,
-      userId: user.id,
+      userId: req.decodedToken.id,
       date: new Date(),
     });
     res.json(note);
@@ -46,6 +65,7 @@ router.post("/", tokenExtractor, async (req, res) => {
 });
 
 router.get("/:id", noteFinder, async (req, res) => {
+  // "/:id", req.params
   // const note = await Note.findByPk(req.params.id);
   if (req.note) {
     res.json(req.note);
