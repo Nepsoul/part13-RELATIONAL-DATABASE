@@ -15,3 +15,11 @@ insert into notes (content, important) values ('MongoDB is webscale', false);
 
 -- to delete blog
 drop table blogs
+
+--to see the information of table
+SELECT TABLE_NAME FROM INFORMATION_SCHEMA. TABLES
+
+--table structure in SQL server query
+select * 
+from INFORMATION_SCHEMA.COLUMNS
+where TABLE_NAME='notes'
